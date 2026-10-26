@@ -1,4 +1,4 @@
-# Personal Notes
+# Toker
 
 A simple personal cloud notes app. Open the Vercel URL from any laptop or phone, and create, edit, search and delete notes. Everything is stored in Neon PostgreSQL. Access is protected by Neon Auth (email + password, single owner).
 

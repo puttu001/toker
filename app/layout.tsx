@@ -6,9 +6,11 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Personal Notes",
+  title: "Toker",
   description: "A simple personal cloud notes app",
   manifest: "/manifest.json",
+  appleWebApp: { capable: true, title: "Toker", statusBarStyle: "default" },
+  icons: { apple: "/apple-touch-icon.png" },
 };
 
 export const viewport: Viewport = {
