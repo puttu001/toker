@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { createEmptyNote, type NoteSummary } from "@/lib/utils";
 import { NoteCard } from "./note-card";
+import { SignOutButton } from "./sign-out-button";
 import { SearchNotes } from "./search-notes";
 
 export function NotesList() {
@@ -50,13 +51,16 @@ export function NotesList() {
     <div className="mx-auto w-full max-w-2xl px-4 py-6">
       <header className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">My Notes</h1>
-        <button
-          onClick={newNote}
-          disabled={creating}
-          className="rounded-md bg-accent px-3 py-2 text-sm font-medium text-white disabled:opacity-60"
-        >
-          + New Note
-        </button>
+        <div className="flex items-center gap-4">
+          <SignOutButton />
+          <button
+            onClick={newNote}
+            disabled={creating}
+            className="rounded-md bg-accent px-3 py-2 text-sm font-medium text-white disabled:opacity-60"
+          >
+            + New Note
+          </button>
+        </div>
       </header>
 
       <SearchNotes value={query} onChange={setQuery} />

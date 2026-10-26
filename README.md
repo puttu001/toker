@@ -1,6 +1,6 @@
 # Personal Notes
 
-A simple personal cloud notes app. Open the Vercel URL from any laptop or phone, and create, edit, search and delete notes. Everything is stored in Neon PostgreSQL. There is no authentication: anyone who knows the URL can use it.
+A simple personal cloud notes app. Open the Vercel URL from any laptop or phone, and create, edit, search and delete notes. Everything is stored in Neon PostgreSQL. Access is protected by Neon Auth (email + password, single owner).
 
 ## Stack
 
@@ -18,6 +18,9 @@ Create `.env.local` (see `.env.example`):
 
 ```env
 DATABASE_URL=your_neon_connection_string
+NEON_AUTH_BASE_URL=https://ep-xxx.neonauth.<region>.aws.neon.tech/neondb/auth
+NEON_AUTH_COOKIE_SECRET=output_of_openssl_rand_-base64_32
+ALLOWED_EMAIL=you@example.com
 ```
 
 Create the `notes` table:
@@ -45,7 +48,7 @@ npm run dev
 ## Deploy
 
 1. Push to GitHub and import the repo in Vercel.
-2. Add `DATABASE_URL` (the Neon connection string) in Project Settings → Environment Variables. Do **not** prefix it with `NEXT_PUBLIC_`.
+2. Add `DATABASE_URL`, `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET` and `ALLOWED_EMAIL` in Project Settings → Environment Variables. Do **not** prefix any with `NEXT_PUBLIC_`.
 3. Redeploy. Run `npm run db:migrate` once against the Neon database (locally is fine).
 
 ## API
@@ -53,3 +56,5 @@ npm run dev
 - `GET /api/notes?q=` — list (id, title, preview, timestamps); `q` searches title and text with `ILIKE`
 - `POST /api/notes` — create
 - `GET | PATCH | DELETE /api/notes/[id]`
+
+All API routes return `401` unless signed in.

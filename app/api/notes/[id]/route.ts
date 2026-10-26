@@ -1,3 +1,4 @@
+import { getCurrentUser, unauthorized } from "@/lib/auth/server";
 import { deleteNote, getNote, updateNote } from "@/lib/notes";
 import { idSchema, updateNoteSchema } from "@/lib/validations";
 
@@ -13,6 +14,7 @@ async function parseId(ctx: Ctx) {
 const notFound = () => Response.json({ error: "Note not found" }, { status: 404 });
 
 export async function GET(_req: Request, ctx: Ctx) {
+  if (!(await getCurrentUser())) return unauthorized();
   const id = await parseId(ctx);
   if (!id) return notFound();
   try {
@@ -25,6 +27,7 @@ export async function GET(_req: Request, ctx: Ctx) {
 }
 
 export async function PATCH(request: Request, ctx: Ctx) {
+  if (!(await getCurrentUser())) return unauthorized();
   const id = await parseId(ctx);
   if (!id) return notFound();
   const body = await request.json().catch(() => null);
@@ -42,6 +45,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
 }
 
 export async function DELETE(_req: Request, ctx: Ctx) {
+  if (!(await getCurrentUser())) return unauthorized();
   const id = await parseId(ctx);
   if (!id) return notFound();
   try {

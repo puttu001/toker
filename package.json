@@ -11,6 +11,7 @@
     "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
+    "@neondatabase/auth": "^0.7.0-beta",
     "@neondatabase/serverless": "^1.2.0",
     "@tiptap/extension-placeholder": "^3.32.0",
     "@tiptap/extension-task-item": "^3.32.0",

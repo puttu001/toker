@@ -1,9 +1,11 @@
+import { getCurrentUser, unauthorized } from "@/lib/auth/server";
 import { createNote, listNotes } from "@/lib/notes";
 import { createNoteSchema, searchSchema } from "@/lib/validations";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
+  if (!(await getCurrentUser())) return unauthorized();
   try {
     const q = searchSchema.parse(new URL(request.url).searchParams.get("q") ?? "");
     return Response.json(await listNotes(q));
@@ -14,6 +16,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  if (!(await getCurrentUser())) return unauthorized();
   const body = await request.json().catch(() => ({}));
   const parsed = createNoteSchema.safeParse(body);
   if (!parsed.success) {
